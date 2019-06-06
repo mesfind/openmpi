@@ -1,9 +1,9 @@
-## clone the source code
+## Clone the source code
 
 
 `git clone 	https://github.com/mesfind/openmpi.git`  
 
-or 
+## OR
 
 use the link to download [https://github.com/mesfind/openmpi](https://github.com/mesfind/openmpi)
 
