@@ -1,7 +1,7 @@
 
  ---
  Further reading
- Note: This is not expected try on the current the HPC 
+ Note: This is not expected to try on the current the HPC 
  ----
 
  I am assuming you run Linux machines. The following tutorial was tested with Ubuntu, but it should be the same with any other distribution. And also, let's consider your machine to be **master** and the other one as **client**
