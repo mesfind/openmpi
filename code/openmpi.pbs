@@ -1,0 +1,69 @@
+#!/bin/bash
+#PBS -u mesfind
+#PBS -N Hello_job
+#PBS -l nodes=1:ppn=12,walltime=0:30:00
+#PBS -m ae
+#PBS -o hello.txt
+#PBS -e error.txt
+
+
+#----------------------------------------------------------------------#
+# You should only have to change the following parameter NPROC, unless #
+# running on more than 48 processes when "select=1" must be increased  #
+# The variable "select" should be set equal to the number of nodes     #
+# A node has 48 physical cores but we set ncpus=96 due to hyperthreads #
+#----------------------------------------------------------------------#
+
+NPROC=2
+
+#------------------------------------------------------------------------#
+# You should not have to edit below here for simple MPI jobs             #
+# This assumes you are using the SGI MPI toolkit and the Intel compilers #
+#------------------------------------------------------------------------#
+
+module load  openmpi-x86_64
+
+cd $PBS_O_WORKDIR
+
+MPIPROG=`basename $PBS_JOBNAME .pbs`
+MPISIZE=$NPROC
+
+# Spread the processes as evenly as possible across the nodes
+
+CPN=2                                    # Cores Per Node (physical)
+NNODE=$( wc -l < $PBS_NODEFILE )           # nodes reserved
+PPN=$(( (MPISIZE + NNODE - 1) / NNODE ))   # Processes Per Node
+
+# Ensure we place a maximum of 48 processes per node to avoid hyperthreads
+
+if [ $PPN -gt $CPN ]
+then
+    NMIN=$(( (MPISIZE + CPN - 1) / CPN ))
+    echo "Error: for $MPISIZE processes you must select at least $NMIN nodes"
+
+    exit 1
+fi
+
+# Ensure that number of MPI processes is a multiple of number of nodes
+
+if [ $MPISIZE -ne $(( NNODE * PPN )) ]
+then
+
+    echo "Error: NPROC=$NPROC must be a multiple of number of nodes=$NNODE"
+    exit 1
+fi
+
+echo '--------------------------------------------------------------------------------'
+
+echo 'Running' $MPIPROG 'on' $MPISIZE 'processes over' $NNODE 'node(s)'
+echo 'Issuing command: mpiexec_mpt -n' $MPISIZE '-ppn' $PPN ./$MPIPROG
+echo 'Started at' `date`
+echo '--------------------------------------------------------------------------------'
+
+(time mpiexec -n $MPISIZE -ppn $PPN ./$MPIPROG) 2>&1
+
+echo '--------------------------------------------------------------------------------'
+echo 'Finished at' `date`
+
+
+module load  openmpi-x86_64
