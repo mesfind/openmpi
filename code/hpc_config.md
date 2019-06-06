@@ -1,19 +1,13 @@
----
-layout: post
-title: Running an MPI Cluster within a LAN
-author: Dwaraka Nath
-categories: Beginner MPI
-tags: MPI, Cluster, LAN
-redirect_from: '/running-an-mpi-cluster-within-a-lan'
----
 
-Earlier, we looked at running MPI programs in a [single machine]({{ site.baseurl }}/tutorials/mpi-hello-world/) to parallel process the code, taking advantage of having more than a single core in CPU. Now, let's widen our scope a bit, taking the same from more than just one computer to a network of nodes connected together in a Local Area Network. To keep things simple, let's just consider two computers for now. It is fairly straight to implement the same with many more nodes.
+ ---
+ Further reading
+ Note: This is not expected try on the current the HPC 
+ ----
 
-As with other tutorials, I am assuming you run Linux machines. The following tutorial was tested with Ubuntu, but it should be the same with any other distribution. And also, let's consider your machine to be **master** and the other one as **client**
+ I am assuming you run Linux machines. The following tutorial was tested with Ubuntu, but it should be the same with any other distribution. And also, let's consider your machine to be **master** and the other one as **client**
 
 ## Pre-requisite
 
-If you have not installed MPICH2 in each of the machines, follow the steps [here]({{ site.baseurl }}/tutorials/installing-mpich2/).
 
 ## Step 1: Configure your ```hosts``` file
 
@@ -255,10 +249,3 @@ But, the following is **not correct** and will result in an error if invoked fro
 $ mpirun -np 10 --hosts slave1 ./cpi
 # Trying to run the program only on remote slave
 ```
-
-## So, what's next?
-
-Exciting isn't it, for having built a cluster to run your code? You now need to know the specifics of writing a program that can run parallely. Best place to start off would be the lesson [MPI hello world lesson]({{ site.baseurl }}/tutorials/mpi-hello-world/). Or if you want to replicate the same using Amazon EC2 instances, I suggest you have a look at [building and running your own cluster on Amazon EC2]({{ site.baseurl }}/tutorials/launching-an-amazon-ec2-mpi-cluster/). For all the other lessons, you may go to the [MPI tutorials]({{ site.baseurl }}/tutorials/) page.
-
-Should you have any issues in setting up your local cluster, please don't hesitate to comment below so we can try to sort it out.
-
