@@ -1,10 +1,9 @@
-# OpenMPI Example
-
-## Download  example and slides
+# Download  example and slides
 
 1. clone the source code
 
-```git clone 	https://github.com/mesfind/openmpi.git
-```
+
+git clone 	https://github.com/mesfind/openmpi.git
+
 
 
